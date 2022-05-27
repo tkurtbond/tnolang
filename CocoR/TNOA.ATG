@@ -1,5 +1,5 @@
 /* TNOA.ATG - Totally Not Oberon, Algol-68 style syntax. */
-COMPILER TNO
+COMPILER TNOA
 
 CHARACTERS
     decDigit = "0123456789".
@@ -23,7 +23,16 @@ TOKENS
     decInt = decDigit {decDigit | '_'} decDigit
            | decDigit {decDigit}.
     ident = letter {letter | decDigit | '_'}.
-    real = decDigit {decDigit} '.' decDigit {decDigit} [('E'|'e') {decDigit}].
+/* This is what I wanted: 1_2.3_4e5_6, but this doesn't seem to work.
+   It always stops with 1_2, as if the decInt token rule is interfering.
+    float  = (decDigit {decDigit} | decDigit {decDigit | '_' } decDigit) '.'
+             (decDigit {decDigit} | decDigit {decDigit | '_' } decDigit)
+             [('E'|'e')
+              (decDigit {decDigit} | decDigit {decDigit | '_' } decDigit)].
+*/
+    // This is what actually works, for certain small values of "works".
+    float  = decDigit {decDigit} '.' decDigit {decDigit}
+             [('E'|'e') decDigit {decDigit}].
 
 COMMENTS FROM "(*" TO "*)" NESTED
 COMMENTS FROM "//" TO eol
@@ -31,11 +40,13 @@ COMMENTS FROM "//" TO eol
 IGNORE '\t' + '\r' + '\n'
 
 PRODUCTIONS
-    TNO        = "MODULE" ident '{' { TypeDecl | VarDecl | ProcDecl | 
-                                      StructDecl | Statement } '}'.
-    Type       = ident | '^' Type | '[' [Number] {',' [Number]} ']' Type |
-                 "(." ".)" Type | 
-                 "PROC" Type ['<' Type '>'] ['(' Type {',' Type} ')' ].
+    TNOA       = "MODULE" ident Compound.
+    Compound   = '{' {Statements} '}'.
+    Statements = TypeDecl | VarDecl | ProcDecl | StructDecl | Statement.
+    Type       = ident | '^' Type
+               | '[' [Number] {',' [Number]} ']' Type
+               | "(." ".)" Type
+               | "PROC" Type ['<' Type '>'] ['(' Type {',' Type} ')' ].
     TypeDecl   = "TYPE" Type ident ';'.
     StructDecl = "STRUCT"  '{' {VarSubDecl ';'} '}'
                  [ '(' ident ')' ] ident ';'.
@@ -43,18 +54,19 @@ PRODUCTIONS
     VarSubDecl = Type ident [ ":=" Expression ]
                  {',' ident [ ":=" Expression ] }.
     ProcDecl   = "PROC" Type ['<' Type ident '>'] ['(' Type ident [',' ident]
-                   {';' Type ident [',' ident]} ')'] ident ';'.
+                   {';' Type ident [',' ident]} ')'] ident
+                   (';' | Compound).
     Statement  = ident {'.' ident} (Assignment | ProcCall) ';' |
-                 "IF" Expression '{' {Statement ';'} '}'
-                 ["ELSE" '{' {Statement ';'} '}'].
+                 "IF" Expression Compound
+                 ["ELSE" Compound].
     Assignment = ":=" Expression.
     ProcCall   =  '(' [Expression { ',' Expression}] ')'.
     Expression = ident {'.' ident} | string | Number | '-' Number
                | StructInit | ArrayInit | TableInit.
     Integer    = binInt | octInt | decInt | hexInt.
-    Number     = Integer | real.
+    Number     = Integer | float.
     StructInit = '{' [Expression {',' Expression}] '}'.
     ArrayInit  = '[' [Expression {',' Expression}] ']'.
     TableInit  = "(." [TableElem {',' TableElem}] ".)".
     TableElem  = Expression ':' Expression.
-END TNO.
+END TNOA.

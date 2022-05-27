@@ -63,7 +63,7 @@ MODULE test {
     PROC INT (INT a; INT b) p6;
     PROC INT ([]INT a; []INT b) p7;
     PROC INT (^INT a; []INT b; [10]INT c; [10,10]INT d; []INT e; [,]INT f) p8;
-    PROC PROC INT p9;
+    PROC PROC INT p9 { VAR INT i := 1; i := 10; }
 
     PROC VOID <INT self> p10;
     // Type bound procedure with no paramaters.
@@ -97,4 +97,9 @@ MODULE test {
     x := #b101;
     x := #o12_34;
     x := #xDEADBEEF;
+    x := 1.5;
+    x := 2.5e10;
+
+    IF (x) { x := 1; }
+    ELSE { x := 2; }
 }

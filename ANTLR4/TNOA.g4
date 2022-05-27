@@ -3,9 +3,9 @@ grammar TNOA;
 
 tokens { MODULE, INT, VAR, TYPE, PROC }
 
-module : 'MODULE' ID compound_statement ;
+module : 'MODULE' ID compound ;
 
-compound_statement
+compound
              : '{' statements* '}';
 
 statements   : type_decl | var_decl | proc_decl | struct_decl | statement;
@@ -20,13 +20,14 @@ var_sub_decl : type ID (':=' expression)? (',' ID (':=' expression)?)*;
 var_sub_decl_struct
              : type ID (',' ID)*;
 proc_decl    : 'PROC' type ('<' type ID '>')?
-               ('(' type ID (',' ID)? (';' type ID (',' ID)?)* ')')? ID ';';
-struct_decl  : 'STRUCT' '{' (var_sub_decl_struct ';')* '}' ('(' ID ')')? ID
-               (';' | compound_statement );
+               ('(' type ID (',' ID)? (';' type ID (',' ID)?)* ')')? ID
+               (';' | compound);
+struct_decl  : 'STRUCT' '{' (var_sub_decl_struct ';')* '}' ('(' ID ')')?
+               ID ';';
 
 statement    : ID (assignment | proc_call ) ';' |
-               'IF' '(' expression ')' compound_statement
-               ('ELSE' compound_statement)?;
+               'IF' '(' expression ')' compound
+               ('ELSE' compound)?;
 
 assignment   : ':=' expression;
 proc_call    : '(' (expression (',' expression)*)? ')';
@@ -35,7 +36,7 @@ struct_init  : '{' expression? (',' expression)* '}';
 array_init   : '[' expression? (',' expression)* ']';
 table_init   : '(.' (table_elem (',' table_elem)*)? '.)';
 table_elem   : expression ':' expression;
-number       : INTEGER | REAL;
+number       : INTEGER | FLOAT;
 expression   : ID | STRING | number | '-' number | ID '.' ID | 'NIL' |
                struct_init | array_init | table_init;
 
@@ -51,7 +52,9 @@ OCTINT : '#o' OCTDIGIT (OCTDIGIT | '_')+ OCTDIGIT | '#o' OCTDIGIT+ ;
 DECINT : DECDIGIT (DECDIGIT | '_')+ DECDIGIT | DECDIGIT+ ;
 HEXINT : '#x' HEXDIGIT (HEXDIGIT | '_')+ HEXDIGIT | '#x' HEXDIGIT+ ;
 
-REAL : DECDIGIT+ '.' DECDIGIT+ ([Ee] DECDIGIT+)* ;
+FLOAT  : (DECDIGIT+ | DECDIGIT (DECDIGIT | '_')+ DECDIGIT) '.'
+         (DECDIGIT+ | DECDIGIT (DECDIGIT | '_')+ DECDIGIT) 
+         ([Ee] (DECDIGIT+ | DECDIGIT (DECDIGIT | '_')+ DECDIGIT))? ;
 
 ID : [a-zA-Z_] ([a-zA-Z_] | [0-9])* ;
 
