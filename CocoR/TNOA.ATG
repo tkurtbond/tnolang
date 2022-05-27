@@ -58,6 +58,7 @@ PRODUCTIONS
                    (';' | Compound).
     Statement  = ident {'.' ident} (Assignment | ProcCall) ';' |
                  "IF" '(' Expression ')' Compound
+                 {"ELSIF" '(' Expression ')' Compound}
                  ["ELSE" Compound].
     Assignment = ":=" Expression.
     ProcCall   =  '(' [Expression { ',' Expression}] ')'.

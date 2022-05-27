@@ -27,6 +27,7 @@ struct_decl  : 'STRUCT' '{' (var_sub_decl_struct ';')* '}' ('(' ID ')')?
 
 statement    : ID (assignment | proc_call ) ';' |
                'IF' '(' expression ')' compound
+               ('ELSIF' '(' expression ')' compound)*
                ('ELSE' compound)?;
 
 assignment   : ':=' expression;
