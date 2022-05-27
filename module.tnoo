@@ -1,0 +1,85 @@
+MODUE test;
+    // Where would you put the individual initializers if you allowed multiples?
+    //   v1, v2 : INTwhere  := ???
+    // Note that Ada just allows one initializer, but it applies to all the
+    // variables.
+    VAR v1 : INT;
+    VAR v2 : INT := 1;
+    VAR v3 : STRING := 'A String';
+    VAR v4 : STRING := "Another String";
+    VAR v5 : STRING := 'With an embedded single quote: \'';
+    VAR v6 : STRING := := "With an embedded double quote: \"";
+    VAR v7 : ^INT;
+    VAR v8 : []INT := [1, 2, 3];
+    VAR v9 : [10]INT;
+    VAR v10 : [5,10];
+    VAR v11 : [2,2]INT v11 := [[1, 2], [3,4]];
+    VAR v12 : (..)INT := (. 'a' : 1, 'b' : 2 .);
+    VAR v13 : ^[]INT := NIL.
+
+    STRUCT T0
+        x : INT;
+        y : INT;
+        z : STRING;
+    END;
+    STRUCT T1(T0)
+        a : INT;
+        b : INT;
+    END;
+
+    VAR v14 : T0 := { 1, 2, 'value for z' };
+    VAR v15 : INT := v14.x;
+    STRUCT T2
+        f1 : ^INT;
+        f2 : [10]INT;
+        f3 : [10,10]INT;
+        f4 : ^[,]INT;
+    END;
+
+    PROC p1;
+    PROC p2: INT;
+    PROC p3 (a: INT): INT;
+    PROC p4 (a: INT; b: INT): INT;
+    PROC p5 (a: INT; b: INT; c: INT; d: INT): INT;
+    PROC p6 (a: INT; b: INT);
+    PROC p7 (a: []INT; b: []INT); // Open arrays.
+    PROC p8 (a: ^INT; b: []INT; c: [10]INT; d: [10,10]INT; e: []INT; f: [,]INT);
+
+    PROC p9: PROC INT;
+    BEGIN
+        VAR i: INT := 1;
+        i := 10;
+        RETURN p2;
+    END p9;                      // Procedure name is optional
+
+    PROC <self: T0> p10;
+    PROC <self: T0> p11 (a: INT);
+
+    VAR pv1: PROC;
+    VAR pv2: PROC (INT);
+    VAR pv3: PROC <T0>;
+    VAR pv4: PROC <T0> (INT);
+
+    TYPE tp1: PROC;
+    TYPE tp2: PROC ^[]INT;
+    
+    p ();
+    // Procedure call.
+    p (1, 2);
+
+    x := #b101;
+    x := #o12_34;
+    x := #xDEADBEEF;
+    x := 1.5;
+    x := 2.5e10;
+
+    IF x THEN
+        a := 1;
+        b := 2
+    ELSIF y THEN
+        c := 3;
+    ELSE
+        d := 4;
+    END;
+    
+END test;
