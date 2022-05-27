@@ -1,0 +1,5 @@
+proc int p; (* forward definition. *)
+proc int p { stmt; }
+proc int p (args) { stmt; }
+proc <int self> int p (args) { stmt; }
+proc (int, real, string) p (args) { stmt; }

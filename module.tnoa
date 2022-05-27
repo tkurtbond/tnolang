@@ -1,0 +1,100 @@
+MODULE test {
+    VAR INT v1, v2 := 1, v3;
+    VAR STRING v3 := 'A String', v4 := "Another String",
+        v5 := 'With an embedded single quote: \'',
+        v6 := "With an embedded double quote: \"";
+    VAR ^INT v7;
+    // Declares a pointer to an integer named p.
+    VAR []INT v8;                // Error: Needs an initializer to know size.
+    VAR [10]INT v9;
+    // Declares an array of 10 integers named b.
+    VAR [5,10]INT v10;
+    // Declares a 5 by 10 array of integers named c.
+    VAR [2,2]INT v11 := [[1, 2], [3,4]];
+    VAR (..) INT v12 := (. 'a' : 1, 'b' : 2 .);
+    VAR ^[]INT v13;
+    // Declares a pointer to an array of integers.
+
+
+    // Not anymore: STRUCT { INT x := 1; INT y := 2; } T0;
+    // I reused a production in the STRUCT definition that allowed
+    // initializers on the fields defined in the struct.  But that way leads
+    // to automatic initialization of fields in STRUCTS, which is very
+    // non-Oberon.  So I removed that.
+    STRUCT { INT x, y; STRING z; } T0;
+    // Declares a structure type with two integer fields that is named t0.
+    STRUCT { INT a, b; } (T0)T1;
+    // Declares a structure type with two integer fields, one that is not
+    // initialized and one that is, that extends structure t0 and is named t1.
+
+    VAR T0 v14 := { 1, 2, 'value for z' };
+    // Declare a variable of type T0 named v12 and initialize it's fields.
+    VAR INT v15 := v14.x;
+    // Declare an integer variable named v15 and initialize it to the x field
+    // of v14.
+
+    // When I had initializers on fieldds of structs, I was thinking this
+    // would work:
+    // STRUCT {
+    //     ^INT p := NIL;
+    //    []INT a;                // Error: Needs an initializer to know size.
+    //    [10]INT b;              // Does not need an initializer.
+    //    [10,10]INT c;           // Does not need an initializer.
+    //    [,]INT d;               // Error: Needs an initializer to know size.
+    //    [,,]INT e;              // Error: Needs an initializer to know size.
+    // } t2;
+    STRUCT {
+        ^INT f1;
+        [10]INT f2;             // Arrays in 
+        [10,10]INT f3;
+        ^[,]INT f4;
+    } t2;
+
+    // Forward procedure declarations.  Procedure definitions are followed by
+    // a compound statement instead of a semicolon.
+    PROC VOID p1;
+    // A procedure that doesn't return a value
+    PROC INT p2;
+    // A procedure that returns an integer.
+    PROC INT (INT a) p3;
+    // A aprocedure that returns an integer and takes an integer as a parameter
+    PROC INT (INT a, b) p4;
+    PROC INT (INT a, b; INT c, d) p5;
+    PROC INT (INT a; INT b) p6;
+    PROC INT ([]INT a; []INT b) p7;
+    PROC INT (^INT a; []INT b; [10]INT c; [10,10]INT d; []INT e; [,]INT f) p8;
+    PROC PROC INT p9;
+
+    PROC VOID <INT self> p10;
+    // Type bound procedure with no paramaters.
+    PROC VOID <INT self> (INT a)  p11;
+    // Type bound procedure with parameters.
+
+    VAR PROC VOID pv1;
+    // A variable that holds a procedure that has no return value and no
+    // parameters.
+    VAR PROC VOID (INT) pv2;
+    // A variable that holds a procedure that has no return value and takes
+    // a integer prarameter.
+    VAR PROC VOID <INT> pv3;
+    // A variable that holds a procedure that has no return value and 
+    // is a type-bound procedure with no arguments.
+    VAR PROC VOID <INT> (INT) pv4;
+    // A variable that holds a procedure that has no return value and 
+    // is a type-bound procedure with one argument, an integer.
+    
+    TYPE PROC VOID tp1;
+    // A type that is a procedure that has no return value and takes no
+    // arguments.
+    TYPE PROC ^[]INT tp2;
+    // A type that is a procedure that returns a pointer to an array of
+    // integers and takes no arguments.
+
+    p ();
+    // Procedure call.
+    p (1, 2);
+
+    x := #b101;
+    x := #o12_34;
+    x := #xDEADBEEF;
+}

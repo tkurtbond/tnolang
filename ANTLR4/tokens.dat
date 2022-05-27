@@ -1,0 +1,33 @@
+// Example tokens for TNO, Totally Not Oberon.
+1
+12
+1_2
+#b1_0_1
+#o012345678  // This is two numbers, and octal number and a decimal 8.
+#x1234_5678_9ABC_DEFF
+
+/
+3_                              // Integer, followed by underscore; an error
+_4                              // Integer, preceeded by underscore; an error
+1234
+
+
+1.1
+2.2e2
+3.3E3
+4.
+.5
+
+
+a
+bb
+_c
+d_
+e_f
+g1
+h_2
+i2_
+
+// Local Variables:
+// comment-start: "//"
+// End:

@@ -1,0 +1,60 @@
+/* TNOA.ATG - Totally Not Oberon, Algol-68 style syntax. */
+COMPILER TNO
+
+CHARACTERS
+    decDigit = "0123456789".
+    hexDigit = decDigit + "ABCDEF".
+    binDigit = "01".
+    octDigit = "01234567".
+    letter = 'A' .. 'Z' + 'a' .. 'z'.
+    eol = '\n'.
+    sqStringCh = ANY - '\''.
+    dqStringCh = ANY - '"'.
+
+TOKENS
+    string = '\'' {sqStringCh | '\\' '\''} '\'' 
+           | '"'  {dqStringCh | '\\' '"'}  '"'. 
+    binInt = '#' 'b' binDigit {binDigit | '_'} binDigit
+           | '#' 'b' binDigit {binDigit}.
+    octInt = '#' 'o' octDigit {octDigit | '_'} octDigit
+           | '#' 'o' octDigit {octDigit}.
+    hexInt = '#' 'x' hexDigit {hexDigit | '_'} hexDigit
+           | '#' 'x' hexDigit {hexDigit}. 
+    decInt = decDigit {decDigit | '_'} decDigit
+           | decDigit {decDigit}.
+    ident = letter {letter | decDigit | '_'}.
+    real = decDigit {decDigit} '.' decDigit {decDigit} [('E'|'e') {decDigit}].
+
+COMMENTS FROM "(*" TO "*)" NESTED
+COMMENTS FROM "//" TO eol
+
+IGNORE '\t' + '\r' + '\n'
+
+PRODUCTIONS
+    TNO        = "MODULE" ident '{' { TypeDecl | VarDecl | ProcDecl | 
+                                      StructDecl | Statement } '}'.
+    Type       = ident | '^' Type | '[' [Number] {',' [Number]} ']' Type |
+                 "(." ".)" Type | 
+                 "PROC" Type ['<' Type '>'] ['(' Type {',' Type} ')' ].
+    TypeDecl   = "TYPE" Type ident ';'.
+    StructDecl = "STRUCT"  '{' {VarSubDecl ';'} '}'
+                 [ '(' ident ')' ] ident ';'.
+    VarDecl    = "VAR" VarSubDecl ';'.
+    VarSubDecl = Type ident [ ":=" Expression ]
+                 {',' ident [ ":=" Expression ] }.
+    ProcDecl   = "PROC" Type ['<' Type ident '>'] ['(' Type ident [',' ident]
+                   {';' Type ident [',' ident]} ')'] ident ';'.
+    Statement  = ident {'.' ident} (Assignment | ProcCall) ';' |
+                 "IF" Expression '{' {Statement ';'} '}'
+                 ["ELSE" '{' {Statement ';'} '}'].
+    Assignment = ":=" Expression.
+    ProcCall   =  '(' [Expression { ',' Expression}] ')'.
+    Expression = ident {'.' ident} | string | Number | '-' Number
+               | StructInit | ArrayInit | TableInit.
+    Integer    = binInt | octInt | decInt | hexInt.
+    Number     = Integer | real.
+    StructInit = '{' [Expression {',' Expression}] '}'.
+    ArrayInit  = '[' [Expression {',' Expression}] ']'.
+    TableInit  = "(." [TableElem {',' TableElem}] ".)".
+    TableElem  = Expression ':' Expression.
+END TNO.
