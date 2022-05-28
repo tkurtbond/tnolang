@@ -40,6 +40,9 @@ MODULE test {
     // Declare an integer variable named v15 and initialize it to the x field
     // of v14.
 
+    // For Paul:
+    VAR []T0 AoS := [{1, 2, 'value for z'}, {3, 4, 'another value for z'}];
+
     // When I had initializers on fieldds of structs, I was thinking this
     // would work:
     // STRUCT {
