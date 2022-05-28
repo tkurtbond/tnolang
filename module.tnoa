@@ -84,13 +84,22 @@ MODULE test {
     VAR PROC VOID <T0> (INT) pv4;
     // A variable that holds a procedure that has no return value and 
     // is a type-bound procedure with one argument, an integer.
-    
+
+    // TYPE gives a specific type a name.     
     TYPE PROC VOID tp1;
     // A type that is a procedure that has no return value and takes no
     // arguments.
     TYPE PROC ^[]INT tp2;
     // A type that is a procedure that returns a pointer to an array of
     // integers and takes no arguments.
+    TYPE PROC PROC ^INT (INT, (..)INT) tp3;
+    // A type that is a procedure that returns an integer and takes two
+    // parameters that are an integer and a table of integers.
+
+    // 
+    TYPE T0 T3;
+    TYPE [,]INT T4;
+    TYPE [10,20]INT T5;
 
     p ();
     // Procedure call.
@@ -101,6 +110,9 @@ MODULE test {
     x := #xDEADBEEF;
     x := 1.5;
     x := 2.5e10;
+    // The following *should* work, but only does with the ANTL4 grammar, not
+    // the Coco/R one.
+    // x := 1_2.3_4e5_6; 
 
     IF (x) {
         a := 1;
