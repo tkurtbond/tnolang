@@ -1,4 +1,4 @@
-COCOR=/usr/local/sw/src/CocoR/CocoR-CPP/src/Coco
+COCOR=Coco
 
 
 
