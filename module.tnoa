@@ -1,8 +1,10 @@
 MODULE test {
-    VAR INT v1, v2 := 1;
+    VAR INT v1*, v2 := 1;
+    // Declares two integer variables, marks v1 for export.
     VAR STRING v3 := 'A String', v4 := "Another String",
-        v5 := 'With an embedded single quote: \'',
+        v5- := 'With an embedded single quote: \'',
         v6 := "With an embedded double quote: \"";
+    // Marks v5 for read-only export.
     VAR ^INT v7;
     // Declares a pointer to an integer named p.
     VAR []INT v8 := [1, 2, 3];  // Needs an initializer to know size.
@@ -23,9 +25,10 @@ MODULE test {
     // non-Oberon.  So I removed that.
     STRUCT { INT x, y; STRING z; } T0;
     // Declares a structure type with two integer fields that is named t0.
-    STRUCT { INT a, b; } (T0)T1;
+    STRUCT { INT a, b; } (T0)T1*;
     // Declares a structure type with two integer fields, one that is not
-    // initialized and one that is, that extends structure t0 and is named t1.
+    // initialized and one that is, that extends structure T0 and is named T1.
+    // Also marks T1 for export.
 
     VAR T0 v14 := { 1, 2, 'value for z' };
     // Declare a variable of type T0 named v12 and initialize it's fields.
@@ -54,15 +57,15 @@ MODULE test {
     // a compound statement instead of a semicolon.
     PROC VOID p1;
     // A procedure that doesn't return a value
-    PROC INT p2;
-    // A procedure that returns an integer.
+    PROC INT p2*;
+    // A procedure that returns an integer and is marked for export.
     PROC INT (INT a) p3;
     // A aprocedure that returns an integer and takes an integer as a parameter
     PROC INT (INT a, b) p4;
     PROC INT (INT a, b; INT c, d) p5;
     PROC INT (INT a; INT b) p6;
     PROC INT ([]INT a; []INT b) p7; // Open arrays.
-    PROC INT (^INT a; []INT b; [10]INT c; [10,10]INT d; []INT e; [,]INT f) p8;
+    PROC INT (^INT a; []INT b; [10]INT c; [10,10]INT d; []INT e; [,]INT f) p8*;
 
     // A procedure definition.
     PROC PROC INT p9; // { VAR INT i := 1; i := 10; RETURN p2; }
@@ -89,16 +92,18 @@ MODULE test {
     TYPE PROC VOID tp1;
     // A type that is a procedure that has no return value and takes no
     // arguments.
-    TYPE PROC ^[]INT tp2;
+    TYPE PROC ^[]INT tp2*;
     // A type that is a procedure that returns a pointer to an array of
-    // integers and takes no arguments.
+    // integers and takes no arguments and is marked for export.
     TYPE PROC PROC ^INT (INT, (..)INT) tp3;
     // A type that is a procedure that returns an integer and takes two
     // parameters that are an integer and a table of integers.
 
-    // 
+    // Just a new name.
     TYPE T0 T3;
+    // Open arrays can have a type.
     TYPE [,]INT T4;
+    // Fully specified arrays can have a type.
     TYPE [10,20]INT T5;
 
     p ();

@@ -10,20 +10,21 @@ compound
 
 statements   : type_decl | var_decl | proc_decl | struct_decl | statement;
 
-type_decl    : 'TYPE' type ID ';';
 type         : ID | '^' type |
                '[' number? (',' number?)* ']' type |
                '(.' '.)' type |
                'PROC' type ('<' type '>')? ('(' type (',' type)* ')')?;
+type_decl    : 'TYPE' type ID '*'? ';';
+struct_decl  : 'STRUCT' '{' (var_sub_decl_struct ';')* '}' ('(' ID ')')?
+               ID '*'? ';';
 var_decl     : 'VAR' var_sub_decl ';';
-var_sub_decl : type ID (':=' expression)? (',' ID (':=' expression)?)*;
+var_sub_decl : type ID ('*' | '-')? (':=' expression)?
+               (',' ID ('*' | '-')? (':=' expression)?)*;
 var_sub_decl_struct
              : type ID (',' ID)*;
 proc_decl    : 'PROC' type ('<' type ID '>')?
-               ('(' type ID (',' ID)? (';' type ID (',' ID)?)* ')')? ID
+               ('(' type ID (',' ID)? (';' type ID (',' ID)?)* ')')? ID '*'?
                (';' | compound);
-struct_decl  : 'STRUCT' '{' (var_sub_decl_struct ';')* '}' ('(' ID ')')?
-               ID ';';
 
 statement    : ID (assignment | proc_call ) ';' |
                'IF' '(' expression ')' compound

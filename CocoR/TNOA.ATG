@@ -47,14 +47,14 @@ PRODUCTIONS
                | '[' [Number] {',' [Number]} ']' Type
                | "(." ".)" Type
                | "PROC" Type ['<' Type '>'] ['(' Type {',' Type} ')' ].
-    TypeDecl   = "TYPE" Type ident ';'.
+    TypeDecl   = "TYPE" Type ident ['*'] ';'.
     StructDecl = "STRUCT"  '{' {VarSubDecl ';'} '}'
-                 [ '(' ident ')' ] ident ';'.
+                 [ '(' ident ')' ] ident ['*']';'.
     VarDecl    = "VAR" VarSubDecl ';'.
-    VarSubDecl = Type ident [ ":=" Expression ]
-                 {',' ident [ ":=" Expression ] }.
+    VarSubDecl = Type ident ['*' | '-'] [ ":=" Expression ]
+                 {',' ident ['*' | '-'] [ ":=" Expression ] }.
     ProcDecl   = "PROC" Type ['<' Type ident '>'] ['(' Type ident [',' ident]
-                   {';' Type ident [',' ident]} ')'] ident
+                   {';' Type ident [',' ident]} ')'] ident ['*']
                    (';' | Compound).
     Statement  = ident {'.' ident} (Assignment | ProcCall) ';' |
                  "IF" '(' Expression ')' Compound

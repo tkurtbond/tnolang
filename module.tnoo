@@ -3,11 +3,11 @@ MODUE test;
     //   v1, v2 : INTwhere  := ???
     // Note that Ada just allows one initializer, but it applies to all the
     // variables.
-    VAR v1 : INT;
+    VAR v1* : INT;
     VAR v2 : INT := 1;
     VAR v3 : STRING := 'A String';
     VAR v4 : STRING := "Another String";
-    VAR v5 : STRING := 'With an embedded single quote: \'';
+    VAR v5- : STRING := 'With an embedded single quote: \'';
     VAR v6 : STRING := := "With an embedded double quote: \"";
     VAR v7 : ^INT;
     VAR v8 : []INT := [1, 2, 3];
@@ -22,7 +22,7 @@ MODUE test;
         y : INT;
         z : STRING;
     END;
-    STRUCT T1(T0)
+    STRUCT T1*(T0)
         a : INT;
         b : INT;
     END;
@@ -37,13 +37,14 @@ MODUE test;
     END;
 
     PROC p1;
-    PROC p2: INT;
+    PROC p2*: INT;
     PROC p3 (a: INT): INT;
     PROC p4 (a: INT; b: INT): INT;
     PROC p5 (a: INT; b: INT; c: INT; d: INT): INT;
     PROC p6 (a: INT; b: INT);
     PROC p7 (a: []INT; b: []INT); // Open arrays.
-    PROC p8 (a: ^INT; b: []INT; c: [10]INT; d: [10,10]INT; e: []INT; f: [,]INT);
+    PROC p8* (a: ^INT; b: []INT; c: [10]INT; d: [10,10]INT; e: []INT;
+              f: [,]INT);
 
     PROC p9: PROC INT;
     BEGIN
@@ -61,7 +62,7 @@ MODUE test;
     VAR pv4: PROC <T0> (INT);
 
     TYPE tp1: PROC;
-    TYPE tp2: PROC ^[]INT;
+    TYPE tp2*: PROC ^[]INT;
     
     p ();
     // Procedure call.
