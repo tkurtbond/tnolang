@@ -3,7 +3,10 @@ tnolang, Totally Not Oberon computer language
 
 This is a computer language that is Totally Not Oberon, but is
 inspired by it and Oberon-2, although the current syntax is inspired
-more by Algol-68.
+more by Algol-68.  I'm aiming for something that is a *little* more
+expressive than Oberon[-2], adding dynamic strings and tables (hash
+tables from strings to any type) and initializers for arrays, structs,
+and tables.  I'm considering dynamic arrays, as well.
 
 Right now I'm just working on the syntax.  I'm developing the syntax
 in both ANTLR4_ and `Coco/R`_ because I plan to write the first
