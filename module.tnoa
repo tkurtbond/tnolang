@@ -21,6 +21,9 @@ MODULE test {
     VAR ^[]INT v13 := NIL;
     // Declares a pointer to an array of integers.
 
+    CONST FLOAT pi := 3.14159;
+    CONST []INT c1 := [1, 2, 3, 4];
+
     // Note that unlike C, there are no anonymous STRUCT definitions.
     // In part that is because unlike in C, where an anonymous struct
     // can be part of a variable declaration, in TNO they are strictly
@@ -64,9 +67,9 @@ MODULE test {
     // } T2;
     STRUCT {
         ^INT f1;
-        [10]INT f2;             // Arrays in 
+        [10]INT f2;             // Arrays in structs
         [10,10]INT f3;
-        ^[,]INT f4;
+        ^[,]INT f4;             // Dynamic arrays in structs.
     } T2;
 
     // Forward procedure declarations.  Procedure definitions are followed by

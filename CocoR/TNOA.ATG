@@ -42,22 +42,23 @@ IGNORE '\t' + '\r' + '\n'
 PRODUCTIONS
     TNOA       = "MODULE" ident Compound.
     Compound   = '{' {Statements} '}'.
-    Statements = TypeDecl | VarDecl | ProcDecl | StructDecl | ImportDecl
-               | Statement.
+    Statements =  ImportDecl | TypeDecl | StructDecl | ProcDecl | ConstDecl
+               | VarDecl | Statement.
     Type       = ident | '^' Type
                | '[' [Number] {',' [Number]} ']' Type
                | "(." ".)" Type
                | "PROC" Type ['<' Type '>'] ['(' Type {',' Type} ')' ].
+    ImportDecl = "IMPORT" ident ["AS" ident] { ',' ident ["AS" ident]} ';'.
     TypeDecl   = "TYPE" Type ident ['*'] ';'.
     StructDecl = "STRUCT"  '{' {VarSubDecl ';'} '}'
                  [ '(' ident ')' ] ident ['*']';'.
-    VarDecl    = "VAR" VarSubDecl ';'.
-    VarSubDecl = Type ident ['*' | '-'] [ ":=" Expression ]
-                 {',' ident ['*' | '-'] [ ":=" Expression ] }.
     ProcDecl   = "PROC" Type ['<' Type ident '>'] ['(' Type ident [',' ident]
                    {';' Type ident [',' ident]} ')'] ident ['*']
                    (';' | Compound).
-    ImportDecl = "IMPORT" ident ["AS" ident] { ',' ident ["AS" ident]} ';'.
+    ConstDecl  = "CONST" VarSubDecl ';'.
+    VarDecl    = "VAR" VarSubDecl ';'.
+    VarSubDecl = Type ident ['*' | '-'] [ ":=" Expression ]
+                 {',' ident ['*' | '-'] [ ":=" Expression ] }.
     Statement  = ident {'.' ident} (Assignment | ProcCall) ';' |
                  "IF" '(' Expression ')' Compound
                  {"ELSIF" '(' Expression ')' Compound}
