@@ -42,7 +42,8 @@ IGNORE '\t' + '\r' + '\n'
 PRODUCTIONS
     TNOA       = "MODULE" ident Compound.
     Compound   = '{' {Statements} '}'.
-    Statements = TypeDecl | VarDecl | ProcDecl | StructDecl | Statement.
+    Statements = TypeDecl | VarDecl | ProcDecl | StructDecl | ImportDecl
+               | Statement.
     Type       = ident | '^' Type
                | '[' [Number] {',' [Number]} ']' Type
                | "(." ".)" Type
@@ -56,6 +57,7 @@ PRODUCTIONS
     ProcDecl   = "PROC" Type ['<' Type ident '>'] ['(' Type ident [',' ident]
                    {';' Type ident [',' ident]} ')'] ident ['*']
                    (';' | Compound).
+    ImportDecl = "IMPORT" ident ["AS" ident] { ',' ident ["AS" ident]} ';'.
     Statement  = ident {'.' ident} (Assignment | ProcCall) ';' |
                  "IF" '(' Expression ')' Compound
                  {"ELSIF" '(' Expression ')' Compound}

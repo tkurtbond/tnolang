@@ -1,4 +1,8 @@
 MODULE test {
+    IMPORT x;
+    IMPORT y AS z;
+    IMPORT x, y, z;
+    IMPORT a, b AS c, d, e AS f;
     VAR INT v1*, v2 := 1;
     // Declares two integer variables, marks v1 for export.
     VAR STRING v3 := 'A String', v4 := "Another String",

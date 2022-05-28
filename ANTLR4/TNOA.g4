@@ -8,7 +8,8 @@ module : 'MODULE' ID compound ;
 compound
              : '{' statements* '}';
 
-statements   : type_decl | var_decl | proc_decl | struct_decl | statement;
+statements   : type_decl | var_decl | proc_decl | struct_decl | import_decl
+             | statement;
 
 type         : ID | '^' type |
                '[' number? (',' number?)* ']' type |
@@ -25,6 +26,7 @@ var_sub_decl_struct
 proc_decl    : 'PROC' type ('<' type ID '>')?
                ('(' type ID (',' ID)? (';' type ID (',' ID)?)* ')')? ID '*'?
                (';' | compound);
+import_decl  : 'IMPORT' ID ('AS' ID)? (',' ID ('AS' ID)?)* ';';
 
 statement    : ID (assignment | proc_call ) ';' |
                'IF' '(' expression ')' compound
