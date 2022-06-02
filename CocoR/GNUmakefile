@@ -1,6 +1,4 @@
-COCOR=/usr/local/sw/src/CocoR/CocoR-CPP/src/Coco
-
-
+COCOR=Coco
 
 tnoa: tnoa.cpp Parser.cpp
 	g++ -o $@ *.cpp
