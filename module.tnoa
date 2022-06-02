@@ -21,27 +21,39 @@ MODULE test {
     VAR ^[]INT v13 := NIL;
     // Declares a pointer to an array of integers.
 
+    CONST FLOAT pi := 3.14159;
+    CONST []INT c1 := [1, 2, 3, 4];
+
+    // Note that unlike C, there are no anonymous STRUCT definitions.
+    // In part that is because unlike in C, where an anonymous struct
+    // can be part of a variable declaration, in TNO they are strictly
+    // type definitions, and have nothing to do with variable
+    // declarations.
 
     // Not anymore: STRUCT { INT x := 1; INT y := 2; } T0;
     // I reused a production in the STRUCT definition that allowed
     // initializers on the fields defined in the struct.  But that way leads
     // to automatic initialization of fields in STRUCTS, which is very
     // non-Oberon.  So I removed that.
+    
     STRUCT { INT x, y; STRING z; } T0;
     // Declares a structure type with two integer fields that is named t0.
+
     STRUCT { INT a, b; } (T0)T1*;
     // Declares a structure type with two integer fields, one that is not
     // initialized and one that is, that extends structure T0 and is named T1.
     // Also marks T1 for export.
 
     VAR T0 v14 := { 1, 2, 'value for z' };
-    // Declare a variable of type T0 named v12 and initialize it's fields.
+    // Declare a variable of type T0 (a struct) named v14 and
+    // initialize its fields.
     VAR INT v15 := v14.x;
     // Declare an integer variable named v15 and initialize it to the x field
     // of v14.
 
     // For Paul:
     VAR []T0 AoS := [{1, 2, 'value for z'}, {3, 4, 'another value for z'}];
+    // Declare an array of type T0 (a struct) named AoS and initialize it.
 
     // When I had initializers on fieldds of structs, I was thinking this
     // would work:
@@ -55,9 +67,9 @@ MODULE test {
     // } T2;
     STRUCT {
         ^INT f1;
-        [10]INT f2;             // Arrays in 
+        [10]INT f2;             // Arrays in structs
         [10,10]INT f3;
-        ^[,]INT f4;
+        ^[,]INT f4;             // Dynamic arrays in structs.
     } T2;
 
     // Forward procedure declarations.  Procedure definitions are followed by

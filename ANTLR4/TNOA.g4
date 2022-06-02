@@ -5,28 +5,28 @@ tokens { MODULE, INT, VAR, TYPE, PROC }
 
 module : 'MODULE' ID compound ;
 
-compound
-             : '{' statements* '}';
+compound     : '{' statements* '}';
 
-statements   : type_decl | var_decl | proc_decl | struct_decl | import_decl
-             | statement;
+statements   : import_decl | type_decl | struct_decl | proc_decl | const_decl
+             | var_decl | statement;
 
 type         : ID | '^' type |
                '[' number? (',' number?)* ']' type |
                '(.' '.)' type |
                'PROC' type ('<' type '>')? ('(' type (',' type)* ')')?;
+import_decl  : 'IMPORT' ID ('AS' ID)? (',' ID ('AS' ID)?)* ';';
 type_decl    : 'TYPE' type ID '*'? ';';
 struct_decl  : 'STRUCT' '{' (var_sub_decl_struct ';')* '}' ('(' ID ')')?
                ID '*'? ';';
+proc_decl    : 'PROC' type ('<' type ID '>')?
+               ('(' type ID (',' ID)? (';' type ID (',' ID)?)* ')')? ID '*'?
+               (';' | compound);
+const_decl   : 'CONST' var_sub_decl ';';
 var_decl     : 'VAR' var_sub_decl ';';
 var_sub_decl : type ID ('*' | '-')? (':=' expression)?
                (',' ID ('*' | '-')? (':=' expression)?)*;
 var_sub_decl_struct
              : type ID (',' ID)*;
-proc_decl    : 'PROC' type ('<' type ID '>')?
-               ('(' type ID (',' ID)? (';' type ID (',' ID)?)* ')')? ID '*'?
-               (';' | compound);
-import_decl  : 'IMPORT' ID ('AS' ID)? (',' ID ('AS' ID)?)* ';';
 
 statement    : ID (assignment | proc_call ) ';' |
                'IF' '(' expression ')' compound
