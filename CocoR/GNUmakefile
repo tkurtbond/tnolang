@@ -3,10 +3,10 @@ COCOR=Coco
 tnoa: tnoa.cpp Parser.cpp
 	g++ -o $@ *.cpp
 
-Parser.cpp: TNOA.ATG Parser.frame Scanner.frame
-	$(COCOR) TNOA.ATG
+Parser.cpp: TNOA.atg Parser.frame Scanner.frame
+	$(COCOR) TNOA.atg
 
-check: TNOA.ATG tnoa ../module.tnoa
+check: TNOA.atg tnoa ../module.tnoa
 	./tnoa ../module.tnoa
 
 clean:
