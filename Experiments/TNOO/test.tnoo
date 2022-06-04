@@ -10,7 +10,9 @@ MODULE Test;
         t1: TABLE OF CHAR;
         t2: TABLE OF INTEGER := [:'one': 1, 'two': 2, 'three': 3:];
         r1: T1;
+         (* Oberon-2 allows REALs to not include anything else after the '.'. *)
         r2: T1 := [.1, 'A', 2..];
+        a3: ARRAY OF T1 := [[. 1, 'a', 1.1 .], [. 2, 'b', 2.2 .]];
     PROCEDURE p1 (i: INTEGER) : INTEGER, REAL, CHAR;
     BEGIN
         RETURN 1, 2.3, 'A';
