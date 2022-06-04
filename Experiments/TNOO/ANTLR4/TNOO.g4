@@ -21,13 +21,14 @@ grammar TNOO;
 /* PRODUCTIONS */
     number       : Integer | Real;
 
-    // The productions from here down to the next comment are straight from Appendix 2 of the Oberon-2 report.
+    // The productions from here down to the next comment are straight from Appendix 2 of the Oberon-2 report, 
+    // except those that are added or modified for TNOO.
     module       : 'MODULE' Ident ';' importList? declSeq ('BEGIN' statementSeq)? 'END' Ident '.';
     importList   : 'IMPORT' (Ident ':=')? Ident (',' (Ident ':=')? Ident)* ';';
     declSeq      : ('CONST' (constDecl ';')* | 'TYPE' (typeDecl ';')* | 'VAR' (varDecl ';')*)* (procDecl ';' | forwardDecl ';')*;
     constDecl    : identDef '=' constExpr;
     typeDecl     : identDef '=' type;
-    varDecl      : identList ':' type;
+    varDecl      : identList ':' type (':=' expr)?;
     procDecl     : 'PROCEDURE' (receiver)? identDef (formalPars)? ';' declSeq ('BEGIN' statementSeq)? 'END' Ident;
     forwardDecl  : 'PROCEDURE' '^' (receiver)? identDef (formalPars)?;
     formalPars   : '(' (fPSection (';' fPSection)*)? ')' (':' qualident (',' qualident)*)?;
@@ -57,11 +58,11 @@ grammar TNOO;
     caseLabels   : constExpr ('..' constExpr)?;
     guard        : qualident ':' qualident;
     constExpr    : expr;
-    expr         : literal | simpleExpr (relation simpleExpr)?;
-    literal      : '[' (expr (',' expr)*)* ']'                                // Array initializer.
-                   | '[:' ((expr ':' expr) (',' expr ':' expr)*)* ':]'        // Table initializer.
-                   | '[.' expr (',' expr)* '.]'                               // Struct initializer.
-                   ;
+    expr         : composite | simpleExpr (relation simpleExpr)?;
+    composite    : arrayComp | tableComp | recordComp;
+    arrayComp    : '[' (expr (',' expr)*)* ']';                               // Array initializer.
+    tableComp    : '[:' ((expr ':' expr) (',' expr ':' expr)*)* ':]';         // Table initializer.
+    recordComp   : '[.' expr (',' expr)* '.]';                                // Struct initializer.
     simpleExpr   : ('+' | '-')? term (addOp term)*;
     term         : factor (mulOp factor)*;
     factor       : designator ('(' (exprList)? ')')? | number | Character | String | 'NIL' | set | '(' expr ')' | '~' factor;

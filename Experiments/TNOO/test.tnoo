@@ -4,9 +4,13 @@ MODULE Test;
         v1: INTEGER;
         v2: REAL;
         v3: CHAR;
+        v4, v5: INTEGER := 0;
         a1: ARRAY 3 OF INTEGER;
+        a2: ARRAY OF INTEGER := [1, 2, 3, 4, 5];
         t1: TABLE OF CHAR;
+        t2: TABLE OF INTEGER := [:'one': 1, 'two': 2, 'three': 3:];
         r1: T1;
+        r2: T1 := [.1, 'A', 2..];
     PROCEDURE p1 (i: INTEGER) : INTEGER, REAL, CHAR;
     BEGIN
         RETURN 1, 2.3, 'A';
