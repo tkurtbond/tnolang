@@ -6,8 +6,8 @@ tnoo: tnoo.cpp Parser.cpp
 Parser.cpp: TNOO.atg Parser.frame Scanner.frame
 	$(COCOR) TNOO.atg
 
-check: TNOO.atg tnoo ../module.tnoo
-	./tnoo ../module.tnoo
+check: TNOO.atg tnoo ../test.tnoo
+	./tnoo ../test.tnoo
 
 clean:
 	-rm {Parser,Scanner}.cpp *.h *.old tnoo

@@ -307,6 +307,10 @@ void Parser::FormalPars() {
 		if (la->kind == 18 /* ":" */) {
 			Get();
 			Qualident();
+			while (la->kind == 13 /* "," */) {
+				Get();
+				Qualident();
+			}
 		}
 }
 

@@ -1,4 +1,4 @@
-COMPILER TNOO.
+COMPILER TNOO
 
 CHARACTERS
     letter = 'A' .. 'Z' + 'a' .. 'z'.
@@ -28,7 +28,7 @@ PRODUCTIONS
     VarDecl      = IdentList ":" Type.
     ProcDecl     = "PROCEDURE" [Receiver] IdentDef [FormalPars] ";" DeclSeq ["BEGIN" StatementSeq] "END" ident.
     ForwardDecl  = "PROCEDURE" "^" [Receiver] IdentDef [FormalPars].
-    FormalPars   = "(" [FPSection {";" FPSection}] ")" [":" Qualident].
+    FormalPars   = "(" [FPSection {";" FPSection}] ")" [":" Qualident {"," Qualident}].
     FPSection    = ["VAR"] ident {"," ident} ":" Type.
     Receiver     = "(" ["VAR"] ident ":" ident ")".
     Type         = Qualident

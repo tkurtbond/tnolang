@@ -1,0 +1,19 @@
+MODULE Test;
+    TYPE T1 = RECORD f1: INTEGER; f2: CHAR; f3: REAL END;
+    VAR
+        v1: INTEGER;
+        v2: REAL;
+        v3: CHAR;
+        a1: ARRAY 3 OF INTEGER;
+        t1: TABLE OF CHAR;
+        r1: T1;
+    PROCEDURE p1 (i: INTEGER) : INTEGER, REAL, CHAR;
+    BEGIN
+        RETURN 1, 2.3, 'A';
+    END p1;
+BEGIN
+    v1, v2, v3 := p1 (10);
+    a1 := [1, 2, 3];
+    t1 := [: 'a' : 'A', 'b' : 'B', 'c' : 'C':];
+    r1 := [. 1, 2.3, '4' .];
+END Test.
