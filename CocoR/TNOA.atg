@@ -14,25 +14,20 @@ CHARACTERS
 TOKENS
     string = '\'' {sqStringCh | '\\' '\''} '\'' 
            | '"'  {dqStringCh | '\\' '"'}  '"'. 
-    binInt = '#' 'b' binDigit {binDigit | '_'} binDigit
-           | '#' 'b' binDigit {binDigit}.
-    octInt = '#' 'o' octDigit {octDigit | '_'} octDigit
-           | '#' 'o' octDigit {octDigit}.
-    hexInt = '#' 'x' hexDigit {hexDigit | '_'} hexDigit
-           | '#' 'x' hexDigit {hexDigit}. 
+    float  = ((decDigit {decDigit | '_' } decDigit) | (decDigit {decDigit}))
+             '.'
+             ((decDigit {decDigit | '_' } decDigit) | (decDigit {decDigit}))
+             [('E'|'e') ['+'|'-']
+              (( decDigit {decDigit | '_' } decDigit) | (decDigit {decDigit}))].
+    binInt = '2' ('r' | 'R') binDigit {binDigit | '_'} binDigit
+           | '2' ('r' | 'R') binDigit {binDigit}.
+    octInt = '8' ('r' | 'R') octDigit {octDigit | '_'} octDigit
+           | '8' ('r' | 'R') octDigit {octDigit}.
+    hexInt = '1' '6' ('r' | 'R') hexDigit {hexDigit | '_'} hexDigit
+           | '1' '6' ('r' | 'R') hexDigit {hexDigit}. 
     decInt = decDigit {decDigit | '_'} decDigit
            | decDigit {decDigit}.
     ident = letter {letter | decDigit | '_'}.
-/* This is what I wanted: 1_2.3_4e5_6, but this doesn't seem to work.
-   It always stops with 1_2, as if the decInt token rule is interfering.
-    float  = (decDigit {decDigit} | decDigit {decDigit | '_' } decDigit) '.'
-             (decDigit {decDigit} | decDigit {decDigit | '_' } decDigit)
-             [('E'|'e')
-              (decDigit {decDigit} | decDigit {decDigit | '_' } decDigit)].
-*/
-    // This is what actually works, for certain small values of "works".
-    float  = decDigit {decDigit} '.' decDigit {decDigit}
-             [('E'|'e') decDigit {decDigit}].
 
 COMMENTS FROM "(*" TO "*)" NESTED
 COMMENTS FROM "//" TO eol
