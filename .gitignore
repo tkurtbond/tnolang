@@ -10,3 +10,11 @@ CocoR/Scanner.*
 ANTLR4/*.interp
 ANTLR4/*.tokens
 ANTLR4/*.java
+Experiments/TNOO/ANTLR4/TNOO.interp
+Experiments/TNOO/ANTLR4/TNOO.tokens
+Experiments/TNOO/ANTLR4/TNOOBaseListener.java
+Experiments/TNOO/ANTLR4/TNOOLexer.interp
+Experiments/TNOO/ANTLR4/TNOOLexer.java
+Experiments/TNOO/ANTLR4/TNOOLexer.tokens
+Experiments/TNOO/ANTLR4/TNOOListener.java
+Experiments/TNOO/ANTLR4/TNOOParser.java
