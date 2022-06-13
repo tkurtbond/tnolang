@@ -1,6 +1,6 @@
-ANTLR4=java -Xmx500M -cp /usr/local/sw/versions/antlr4/4.10.1/antlr-4.10.1-complete.jar:$$CLASSPATH org.antlr.v4.Tool
-GRUN=java -Xmx500M -cp .:/usr/local/sw/versions/antlr4/4.10.1/antlr-4.10.1-complete.jar:$$CLASSPATH org.antlr.v4.gui.TestRig
-JAVAC=javac -cp .:/usr/local/sw/versions/antlr4/4.10.1/antlr-4.10.1-complete.jar:$$CLASSPATH
+ANTLR4=java -Xmx500M -cp /usr/local/sw/versions/antlr/4/4.10.1/antlr-4.10.1-complete.jar:$$CLASSPATH org.antlr.v4.Tool
+GRUN=java -Xmx500M -cp .:/usr/local/sw/versions/antlr/4/4.10.1/antlr-4.10.1-complete.jar:$$CLASSPATH org.antlr.v4.gui.TestRig
+JAVAC=javac -cp .:/usr/local/sw/versions/antlr/4/4.10.1/antlr-4.10.1-complete.jar:$$CLASSPATH
 
 # To complicated to start with: /home/tkb/current/Oberon/compiler/src/MOBP.Mod
 # Simpler: test.obn
