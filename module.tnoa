@@ -140,9 +140,7 @@ MODULE test {
     x := 2.5e10;
     x := 3.1415e2;
     x := 1_234_567.1_234E-1_234;
-    // The following *should* work, but only does with the ANTL4 grammar, not
-    // the Coco/R one.
-    // x := 1_2.3_4e5_6; 
+    x := 1_2.3_4e5_6; 
 
     IF (x) {
         a := 1;
