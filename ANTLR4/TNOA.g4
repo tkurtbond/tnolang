@@ -12,7 +12,7 @@ statements   : import_decl | type_decl | struct_decl | proc_decl | const_decl
 
 type         : ID | '^' type |
                '[' number? (',' number?)* ']' type |
-               '(.' '.)' type |
+               '(:' ':)' type |
                'PROC' type ('<' type '>')? ('(' type (',' type)* ')')?;
 import_decl  : 'IMPORT' ID ('AS' ID)? (',' ID ('AS' ID)?)* ';';
 type_decl    : 'TYPE' type ID '*'? ';';
@@ -31,14 +31,14 @@ var_sub_decl_struct
 statement    : ID (assignment | proc_call ) ';' |
                'IF' '(' expression ')' compound
                ('ELSIF' '(' expression ')' compound)*
-               ('ELSE' compound)?;
-
+               ('ELSE' compound)? |
+               'RETURN' expression ';';
 assignment   : ':=' expression;
 proc_call    : '(' (expression (',' expression)*)? ')';
 
 struct_init  : '{' expression? (',' expression)* '}';
 array_init   : '[' expression? (',' expression)* ']';
-table_init   : '(.' (table_elem (',' table_elem)*)? '.)';
+table_init   : '(:' (table_elem (',' table_elem)*)? ':)';
 table_elem   : expression ':' expression;
 number       : INTEGER | FLOAT;
 expression   : ID | STRING | number | '-' number | ID '.' ID | 'NIL' |
@@ -51,14 +51,14 @@ fragment BINDIGIT : [01]+ ;
 fragment OCTDIGIT : [0-7]+ ;
 fragment DECDIGIT : [0-9]+ ;
 fragment HEXDIGIT : [0-9A-Fa-f]+ ;
-BININT : '#b' BINDIGIT (BINDIGIT | '_')+ BINDIGIT | '#b' BINDIGIT+ ;
-OCTINT : '#o' OCTDIGIT (OCTDIGIT | '_')+ OCTDIGIT | '#o' OCTDIGIT+ ;
+BININT : '2' ('R' | 'r') ((BINDIGIT (BINDIGIT | '_')+ BINDIGIT) | BINDIGIT+) ;
+OCTINT : '8' ('R' | 'r') ((OCTDIGIT (OCTDIGIT | '_')+ OCTDIGIT) | OCTDIGIT+) ;
 DECINT : DECDIGIT (DECDIGIT | '_')+ DECDIGIT | DECDIGIT+ ;
-HEXINT : '#x' HEXDIGIT (HEXDIGIT | '_')+ HEXDIGIT | '#x' HEXDIGIT+ ;
+HEXINT : '16'('R' | 'r') ((HEXDIGIT (HEXDIGIT | '_')+ HEXDIGIT) | HEXDIGIT+) ;
 
-FLOAT  : (DECDIGIT+ | DECDIGIT (DECDIGIT | '_')+ DECDIGIT) '.'
-         (DECDIGIT+ | DECDIGIT (DECDIGIT | '_')+ DECDIGIT) 
-         ([Ee] (DECDIGIT+ | DECDIGIT (DECDIGIT | '_')+ DECDIGIT))? ;
+FLOAT  : ((DECDIGIT (DECDIGIT | '_')+ DECDIGIT) | DECDIGIT+) '.'
+         ((DECDIGIT (DECDIGIT | '_')+ DECDIGIT) | DECDIGIT+) 
+         ([Ee] [-+]* ((DECDIGIT (DECDIGIT | '_')+ DECDIGIT) | DECDIGIT+))? ;
 
 ID : [a-zA-Z_] ([a-zA-Z_] | [0-9])* ;
 
