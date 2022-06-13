@@ -54,18 +54,19 @@ PRODUCTIONS
     VarDecl    = "VAR" VarSubDecl ';'.
     VarSubDecl = Type ident ['*' | '-'] [ ":=" Expression ]
                  {',' ident ['*' | '-'] [ ":=" Expression ] }.
-    Statement  = ident {'.' ident} (Assignment | ProcCall) ';' |
-                 "IF" '(' Expression ')' Compound
+    Statement  = ident {'.' ident} (Assignment | ProcCall) ';'
+               | "IF" '(' Expression ')' Compound
                  {"ELSIF" '(' Expression ')' Compound}
-                 ["ELSE" Compound].
+                 ["ELSE" Compound]
+               | "RETURN" Expression ';'.
     Assignment = ":=" Expression.
     ProcCall   =  '(' [Expression { ',' Expression}] ')'.
     Expression = ident {'.' ident} | string | Number | '-' Number
                | StructInit | ArrayInit | TableInit.
     Integer    = binInt | octInt | decInt | hexInt.
     Number     = Integer | float.
-    StructInit = '{' [Expression {',' Expression}] '}'.
-    ArrayInit  = '[' [Expression {',' Expression}] ']'.
-    TableInit  = "(." [TableElem {',' TableElem}] ".)".
+    StructInit = '{' [Expression {',' Expression} [',']] '}'.
+    ArrayInit  = '[' [Expression {',' Expression} [',']] ']'.
+    TableInit  = "(:" [TableElem {',' TableElem} [',']] ":)".
     TableElem  = Expression ':' Expression.
 END TNOA.

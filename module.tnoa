@@ -87,7 +87,11 @@ MODULE test {
     PROC INT (^INT a; []INT b; [10]INT c; [10,10]INT d; []INT e; [,]INT f) p8*;
 
     // A procedure definition.
-    PROC PROC INT p9; // { VAR INT i := 1; i := 10; RETURN p2; }
+    PROC PROC INT p9 {
+      VAR INT i := 1;
+      i := 10;
+      RETURN i;
+    }
 
     PROC VOID <T0 self> p10;
     // Type bound procedure with no paramaters.
