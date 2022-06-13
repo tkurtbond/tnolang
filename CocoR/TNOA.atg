@@ -63,10 +63,10 @@ PRODUCTIONS
     ProcCall   =  '(' [Expression { ',' Expression}] ')'.
     Expression = ident {'.' ident} | string | Number | '-' Number
                | StructInit | ArrayInit | TableInit.
-    Integer    = binInt | octInt | decInt | hexInt.
-    Number     = Integer | float.
     StructInit = '{' [Expression {',' Expression} [',']] '}'.
     ArrayInit  = '[' [Expression {',' Expression} [',']] ']'.
     TableInit  = "(:" [TableElem {',' TableElem} [',']] ":)".
     TableElem  = Expression ':' Expression.
+    Integer    = binInt | octInt | decInt | hexInt.
+    Number     = Integer | float.
 END TNOA.
