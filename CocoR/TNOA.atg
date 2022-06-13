@@ -62,10 +62,10 @@ PRODUCTIONS
     Assignment = ":=" Expression.
     ProcCall   =  '(' [Expression { ',' Expression}] ')'.
     Expression = ident {'.' ident} | string | Number | '-' Number
-               | StructInit | ArrayInit | TableInit.
-    StructInit = '{' [Expression {',' Expression} [',']] '}'.
-    ArrayInit  = '[' [Expression {',' Expression} [',']] ']'.
-    TableInit  = "(:" [TableElem {',' TableElem} [',']] ":)".
+               | StructLit | ArrayLit | TableLit.
+    StructLit  = '{' [Expression {',' Expression} [',']] '}'.
+    ArrayLit   = '[' [Expression {',' Expression} [',']] ']'.
+    TableLit   = "(:" [TableElem {',' TableElem} [',']] ":)".
     TableElem  = Expression ':' Expression.
     Integer    = binInt | octInt | decInt | hexInt.
     Number     = Integer | float.
