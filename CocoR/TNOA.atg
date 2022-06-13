@@ -41,7 +41,7 @@ PRODUCTIONS
                | VarDecl | Statement.
     Type       = ident | '^' Type
                | '[' [Number] {',' [Number]} ']' Type
-               | "(." ".)" Type
+               | "(:" ":)" Type
                | "PROC" Type ['<' Type '>'] ['(' Type {',' Type} ')' ].
     ImportDecl = "IMPORT" ident ["AS" ident] { ',' ident ["AS" ident]} ';'.
     TypeDecl   = "TYPE" Type ident ['*'] ';'.

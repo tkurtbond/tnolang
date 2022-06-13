@@ -17,7 +17,7 @@ MODULE test {
     VAR [5,10]INT v10;
     // Declares a 5 by 10 array of integers named c.
     VAR [2,2]INT v11 := [[1, 2], [3,4]];
-    VAR (..)INT v12 := (. 'a' : 1, 'b' : 2 .);
+    VAR (::)INT v12 := (:'a' : 1, 'b' : 2:);
     VAR ^[]INT v13 := NIL;
     // Declares a pointer to an array of integers.
 
@@ -114,7 +114,7 @@ MODULE test {
     TYPE PROC ^[]INT tp2*;
     // A type that is a procedure that returns a pointer to an array of
     // integers and takes no arguments and is marked for export.
-    TYPE PROC PROC ^INT (INT, (..)INT) tp3;
+    TYPE PROC PROC ^INT (INT, (::)INT) tp3;
     // A type that is a procedure that returns an integer and takes two
     // parameters that are an integer and a table of integers.
 
