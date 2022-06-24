@@ -55,7 +55,7 @@ MODULE test {
     VAR []T0 AoS := [{1, 2, 'value for z'}, {3, 4, 'another value for z'}];
     // Declare an array of type T0 (a struct) named AoS and initialize it.
 
-    // When I had initializers on fieldds of structs, I was thinking this
+    // When I had initializers on fields of structs, I was thinking this
     // would work:
     // STRUCT {
     //     ^INT p := NIL;
