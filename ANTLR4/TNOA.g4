@@ -18,10 +18,11 @@ import_decl  : 'IMPORT' ID ('AS' ID)? (',' ID ('AS' ID)?)* ';';
 type_decl    : 'TYPE' type ID '*'? ';';
 struct_decl  : 'STRUCT' '{' (var_sub_decl_struct ';')* '}' ('(' ID ')')?
                ID '*'? ';';
-proc_decl    : 'PROC' type ('<' type ID '>')?
-               ('(' ('VAR' | 'IN')? type ID (',' ID)?
-               (';' ('VAR' | 'IN')? type ID (',' ID)?)* ')')? ID '*'?
+proc_decl    : 'PROC' type ('<' type ID '>')? formal_pars?
+                ID '*'?
                (';' | compound);
+formal_pars  : ('(' fp_section (';' fp_section)* ')')?;
+fp_section   : ('VAR' | 'IN')? type ID (',' ID)?;
 const_decl   : 'CONST' var_sub_decl ';';
 var_decl     : 'VAR' var_sub_decl ';';
 var_sub_decl : type ID ('*' | '-')? (':=' expression)?

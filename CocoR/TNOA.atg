@@ -48,10 +48,10 @@ PRODUCTIONS
     StructDecl = "STRUCT"  '{' {VarSubDecl ';'} '}'
                  [ '(' ident ')' ] ident ['*']';'.
     ProcDecl   = "PROC" Type ['<' Type ident '>']
-                 ['(' ["VAR" | "IN"] Type ident [',' ident]
-                   {';' ["VAR" | "IN"] Type ident [',' ident]} ')']
-                   ident ['*']
-                   (';' | Compound).
+                 [FormalPars] ident ['*'] (';' | Compound).
+    FormalPars = '(' FPSection 
+                   {';' FPSection } ')'.
+    FPSection  = ["VAR" | "IN"] Type ident [',' ident].
     ConstDecl  = "CONST" VarSubDecl ';'.
     VarDecl    = "VAR" VarSubDecl ';'.
     VarSubDecl = Type ident ['*' | '-'] [ ":=" Expression ]
