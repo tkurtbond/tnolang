@@ -47,8 +47,10 @@ PRODUCTIONS
     TypeDecl   = "TYPE" Type ident ['*'] ';'.
     StructDecl = "STRUCT"  '{' {VarSubDecl ';'} '}'
                  [ '(' ident ')' ] ident ['*']';'.
-    ProcDecl   = "PROC" Type ['<' Type ident '>'] ['(' Type ident [',' ident]
-                   {';' Type ident [',' ident]} ')'] ident ['*']
+    ProcDecl   = "PROC" Type ['<' Type ident '>']
+                 ['(' ["VAR" | "IN"] Type ident [',' ident]
+                   {';' ["VAR" | "IN"] Type ident [',' ident]} ')']
+                   ident ['*']
                    (';' | Compound).
     ConstDecl  = "CONST" VarSubDecl ';'.
     VarDecl    = "VAR" VarSubDecl ';'.

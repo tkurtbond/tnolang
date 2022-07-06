@@ -19,7 +19,8 @@ type_decl    : 'TYPE' type ID '*'? ';';
 struct_decl  : 'STRUCT' '{' (var_sub_decl_struct ';')* '}' ('(' ID ')')?
                ID '*'? ';';
 proc_decl    : 'PROC' type ('<' type ID '>')?
-               ('(' type ID (',' ID)? (';' type ID (',' ID)?)* ')')? ID '*'?
+               ('(' ('VAR' | 'IN')? type ID (',' ID)?
+               (';' ('VAR' | 'IN')? type ID (',' ID)?)* ')')? ID '*'?
                (';' | compound);
 const_decl   : 'CONST' var_sub_decl ';';
 var_decl     : 'VAR' var_sub_decl ';';

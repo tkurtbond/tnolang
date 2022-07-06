@@ -79,7 +79,7 @@ MODULE test {
     PROC INT p2*;
     // A procedure that returns an integer and is marked for export.
     PROC INT (INT a) p3;
-    // A aprocedure that returns an integer and takes an integer as a parameter
+    // A procedure that returns an integer and takes an integer as a parameter
     PROC INT (INT a, b) p4;
     PROC INT (INT a, b; INT c, d) p5;
     PROC INT (INT a; INT b) p6;
@@ -97,6 +97,9 @@ MODULE test {
     // Type bound procedure with no paramaters.
     PROC VOID <T0 self> (INT a)  p11;
     // Type bound procedure with parameters.
+
+    PROC INT (VAR ^INT pi; IN []INT a) p11*;
+    // A procedure that takes VAR and IN parameters.
 
     VAR PROC VOID pv1;
     // A variable that holds a procedure that has no return value and no
