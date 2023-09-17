@@ -1,0 +1,4 @@
+    VAR [2,2]INT v11 := [,]INT {[]INT{1, 2}, []INT{3,4}};
+
+    CompositeInit  = Type '{' (ExpressionList)  [','] '}'.
+    ExpressionList = [Expression {',' Expression}].

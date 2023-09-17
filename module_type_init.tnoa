@@ -1,0 +1,153 @@
+MODULE test {
+    IMPORT x;
+    IMPORT y AS z;
+    IMPORT x, y, z;
+    IMPORT a, b AS c, d, e AS f;
+    VAR INT v1*, v2 := 1;
+    // Declares two integer variables, marks v1 for export.
+    VAR STRING v3 := 'A String', v4 := "Another String",
+        v5- := 'With an embedded single quote: \'',
+        v6 := "With an embedded double quote: \"";
+    // Marks v5 for read-only export.
+    VAR ^INT v7;
+    // Declares a pointer to an integer named p.
+    VAR []INT v8 := []INT {1, 2, 3};  // Needs an initializer to know size.
+    VAR [10]INT v9;
+    // Declares an array of 10 integers named b.
+    VAR [5,10]INT v10;
+    // Declares a 5 by 10 array of integers named c.
+    VAR [2,3]INT v11 := [,]INT {[]INT{1, 2}, []INT{3,4}};
+    VAR (::)INT v12 := (::)INT {'a' : 1, 'b' : 2};
+    VAR ^[]INT v13 := NIL;
+    // Declares a pointer to an array of integers.
+
+    CONST FLOAT pi := 3.14159;
+    CONST []INT c1 := [1, 2, 3, 4];
+
+    // Note that unlike C, there are no anonymous STRUCT definitions.
+    // In part that is because unlike in C, where an anonymous struct
+    // can be part of a variable declaration, in TNO they are strictly
+    // type definitions, and have nothing to do with variable
+    // declarations.
+
+    // Not anymore: STRUCT { INT x := 1; INT y := 2; } T0;
+    // I reused a production in the STRUCT definition that allowed
+    // initializers on the fields defined in the struct.  But that way leads
+    // to automatic initialization of fields in STRUCTS, which is very
+    // non-Oberon.  So I removed that.
+    
+    STRUCT { INT x, y; STRING z; } T0;
+    // Declares a structure type with two integer fields that is named t0.
+
+    STRUCT { INT a, b; } (T0)T1*;
+    // Declares a structure type with two integer fields, one that is not
+    // initialized and one that is, that extends structure T0 and is named T1.
+    // Also marks T1 for export.
+
+    VAR T0 v14 := { 1, 2, 'value for z' };
+    // Declare a variable of type T0 (a struct) named v14 and
+    // initialize its fields.
+    VAR INT v15 := v14.x;
+    // Declare an integer variable named v15 and initialize it to the x field
+    // of v14.
+
+    // For Paul:
+    VAR []T0 AoS := [{1, 2, 'value for z'}, {3, 4, 'another value for z'}];
+    // Declare an array of type T0 (a struct) named AoS and initialize it.
+
+    // When I had initializers on fieldds of structs, I was thinking this
+    // would work:
+    // STRUCT {
+    //     ^INT p := NIL;
+    //    []INT a;                // Error: Needs an initializer to know size.
+    //    [10]INT b;              // Does not need an initializer.
+    //    [10,10]INT c;           // Does not need an initializer.
+    //    [,]INT d;               // Error: Needs an initializer to know size.
+    //    [,,]INT e;              // Error: Needs an initializer to know size.
+    // } T2;
+    STRUCT {
+        ^INT f1;
+        [10]INT f2;             // Arrays in structs
+        [10,10]INT f3;
+        ^[,]INT f4;             // Dynamic arrays in structs.
+    } T2;
+
+    // Forward procedure declarations.  Procedure definitions are followed by
+    // a compound statement instead of a semicolon.
+    PROC VOID p1;
+    // A procedure that doesn't return a value
+    PROC INT p2*;
+    // A procedure that returns an integer and is marked for export.
+    PROC INT (INT a) p3;
+    // A aprocedure that returns an integer and takes an integer as a parameter
+    PROC INT (INT a, b) p4;
+    PROC INT (INT a, b; INT c, d) p5;
+    PROC INT (INT a; INT b) p6;
+    PROC INT ([]INT a; []INT b) p7; // Open arrays.
+    PROC INT (^INT a; []INT b; [10]INT c; [10,10]INT d; []INT e; [,]INT f) p8*;
+
+    // A procedure definition.
+    PROC PROC INT p9 {
+      VAR INT i := 1;
+      i := 10;
+      RETURN i;
+    }
+
+    PROC VOID <T0 self> p10;
+    // Type bound procedure with no paramaters.
+    PROC VOID <T0 self> (INT a)  p11;
+    // Type bound procedure with parameters.
+
+    VAR PROC VOID pv1;
+    // A variable that holds a procedure that has no return value and no
+    // parameters.
+    VAR PROC VOID (INT) pv2;
+    // A variable that holds a procedure that has no return value and takes
+    // a integer prarameter.
+    VAR PROC VOID <T0> pv3;
+    // A variable that holds a procedure that has no return value and 
+    // is a type-bound procedure with no arguments.
+    VAR PROC VOID <T0> (INT) pv4;
+    // A variable that holds a procedure that has no return value and 
+    // is a type-bound procedure with one argument, an integer.
+
+    // TYPE gives a specific type a name.     
+    TYPE PROC VOID tp1;
+    // A type that is a procedure that has no return value and takes no
+    // arguments.
+    TYPE PROC ^[]INT tp2*;
+    // A type that is a procedure that returns a pointer to an array of
+    // integers and takes no arguments and is marked for export.
+    TYPE PROC PROC ^INT (INT, (::)INT) tp3;
+    // A type that is a procedure that returns an integer and takes two
+    // parameters that are an integer and a table of integers.
+
+    // Just a new name.
+    TYPE T0 T3;
+    // Open arrays can have a type.
+    TYPE [,]INT T4;
+    // Fully specified arrays can have a type.
+    TYPE [10,20]INT T5;
+
+    p ();
+    // Procedure call.
+    p (1, 2);
+
+    x := 2r101;
+    x := 8R12_34;
+    x := 16rDEAD_BEEF;
+    x := 1.5;
+    x := 2.5E10;
+    x := 3.1415e2;
+    x := 1_234_567.1_234E-1_234;
+    x := 1_2.3_4e5_6; 
+
+    IF (x) {
+        a := 1;
+        b := 2;
+    } ELSIF (y) {
+        c := 3;
+    } ELSE {
+        d := 4;
+    }
+}

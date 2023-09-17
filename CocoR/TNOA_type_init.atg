@@ -1,0 +1,73 @@
+/* TNOA.ATG - Totally Not Oberon, Algol-68 style syntax. */
+COMPILER TNOA
+
+CHARACTERS
+    decDigit = "0123456789".
+    hexDigit = decDigit + "ABCDEF".
+    binDigit = "01".
+    octDigit = "01234567".
+    letter = 'A' .. 'Z' + 'a' .. 'z'.
+    eol = '\n'.
+    sqStringCh = ANY - '\''.
+    dqStringCh = ANY - '"'.
+
+TOKENS
+    string = '\'' {sqStringCh | '\\' '\''} '\'' 
+           | '"'  {dqStringCh | '\\' '"'}  '"'. 
+    float  = ((decDigit {decDigit | '_' } decDigit) | (decDigit {decDigit}))
+             '.'
+             ((decDigit {decDigit | '_' } decDigit) | (decDigit {decDigit}))
+             [('E'|'e') ['+'|'-']
+              (( decDigit {decDigit | '_' } decDigit) | (decDigit {decDigit}))].
+    binInt = '2' ('r' | 'R') binDigit {binDigit | '_'} binDigit
+           | '2' ('r' | 'R') binDigit {binDigit}.
+    octInt = '8' ('r' | 'R') octDigit {octDigit | '_'} octDigit
+           | '8' ('r' | 'R') octDigit {octDigit}.
+    hexInt = '1' '6' ('r' | 'R') hexDigit {hexDigit | '_'} hexDigit
+           | '1' '6' ('r' | 'R') hexDigit {hexDigit}. 
+    decInt = decDigit {decDigit | '_'} decDigit
+           | decDigit {decDigit}.
+    ident = letter {letter | decDigit | '_'}.
+
+COMMENTS FROM "(*" TO "*)" NESTED
+COMMENTS FROM "//" TO eol
+
+IGNORE '\t' + '\r' + '\n'
+
+PRODUCTIONS
+    TNOA           = "MODULE" ident Compound.
+    Compound       = '{' {Statements} '}'.
+    Statements     =  ImportDecl | TypeDecl | StructDecl | ProcDecl | ConstDecl
+                   | VarDecl | Statement.
+    Type           = ident | '^' Type
+                   | '[' [Number] {',' [Number]} ']' Type
+                   | "SET"
+                   | "(:" ":)" Type
+                   | "PROC" Type ['<' Type '>'] ['(' Type {',' Type} ')' ].
+    ImportDecl     = "IMPORT" ident ["AS" ident] { ',' ident ["AS" ident]} ';'.
+    TypeDecl       = "TYPE" Type ident ['*'] ';'.
+    StructDecl     = "STRUCT"  '{' {VarSubDecl ';'} '}'
+                     [ '(' ident ')' ] ident ['*']';'.
+    ProcDecl       = "PROC" Type ['<' Type ident '>'] ['(' Type ident [',' ident]
+                       {';' Type ident [',' ident]} ')'] ident ['*']
+                       (';' | Compound).
+    ConstDecl      = "CONST" VarSubDecl ';'.
+    VarDecl        = "VAR" VarSubDecl ';'.
+    VarSubDecl     = Type ident ['*' | '-'] [ ":=" Expression ]
+                     {',' ident ['*' | '-'] [ ":=" Expression ] }.
+    Statement      = ident {'.' ident} (Assignment | ProcCall) ';'
+                   | "IF" '(' Expression ')' Compound
+                     {"ELSIF" '(' Expression ')' Compound}
+                     ["ELSE" Compound]
+                   | "RETURN" Expression ';'.
+    Assignment     = ":=" Expression.
+    ProcCall       =  '(' [Expression { ',' Expression}] ')'.
+    Expression     = ident {'.' ident} | string | Number | '-' Number
+                   | CompositeInit.
+    Integer        = binInt | octInt | decInt | hexInt.
+    Number         = Integer | float.
+    CompositeInit  = Type '{' (ExpressionList | TableList)  [','] '}'.
+    ExpressionList = [Expression {',' Expression}].
+    TableList      = [TableElem {',' TableElem}].
+    TableElem      = Expression ':' Expression.
+END TNOA.

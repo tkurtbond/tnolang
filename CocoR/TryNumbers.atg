@@ -1,0 +1,46 @@
+COMPILER TRY
+
+CHARACTERS
+    decDigit = "0123456789".
+    hexDigit = decDigit + "ABCDEF".
+    binDigit = "01".
+    octDigit = "01234567".
+    letter = 'A' .. 'Z' + 'a' .. 'z'.
+    eol = '\n'.
+    sqStringCh = ANY - '\''.
+    dqStringCh = ANY - '"'.
+
+TOKENS
+    string = '\'' {sqStringCh | '\\' '\''} '\'' 
+           | '"'  {dqStringCh | '\\' '"'}  '"'. 
+    binInt = '#' 'b' binDigit {binDigit | '_'} binDigit
+           | '#' 'b' binDigit {binDigit}.
+    octInt = '#' 'o' octDigit {octDigit | '_'} octDigit
+           | '#' 'o' octDigit {octDigit}.
+    hexInt = '#' 'x' hexDigit {hexDigit | '_'} hexDigit
+           | '#' 'x' hexDigit {hexDigit}. 
+    decInt = decDigit {decDigit | '_'} decDigit
+           | decDigit {decDigit}.
+    ident  = letter {letter | decDigit | '_'}.
+/* This is what I wanted: 1_2.3_4e5_6, but this doesn't seem to work.
+   It always stops with 1_2, as if the decInt token rule is interfering.
+    float  = (decDigit {decDigit} | decDigit {decDigit | '_' } decDigit) '.'
+             (decDigit {decDigit} | decDigit {decDigit | '_' } decDigit)
+             [('E'|'e')
+              (decDigit {decDigit} | decDigit {decDigit | '_' } decDigit)].
+*/
+    // This is what actually works, for certain small values of "works".
+    float  = decDigit {decDigit} '.' decDigit {decDigit}
+             [('E'|'e') decDigit {decDigit}].
+
+COMMENTS FROM "(*" TO "*)" NESTED
+COMMENTS FROM "//" TO eol
+
+IGNORE '\t' + '\r' + '\n'
+
+PRODUCTIONS
+    TRY          = Number ';' {Number ';'}.
+    Integer    = binInt | octInt | decInt | hexInt.
+    Number     = float | Integer.
+END TRY.
+    
